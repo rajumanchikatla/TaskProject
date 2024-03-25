@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.Backend.taskproject.entity.Task;
+import com.Backend.taskproject.playload.TaskDto;
 import com.Backend.taskproject.serviceImpl.TaskServiceImpl;
 
 @RequestMapping("/api")
@@ -23,10 +24,10 @@ public class TaskController {
 	private TaskServiceImpl taskServiceImpl;
 	
 	@PostMapping("/{userid}/tasks")
-	public ResponseEntity<Task> savetask(@PathVariable(name = "userid") long userid,
-										@RequestBody Task task)
+	public ResponseEntity<TaskDto> savetask(@PathVariable(name = "userid") long userid,
+										@RequestBody TaskDto taskDto)
 	{
-		return new ResponseEntity<>(taskServiceImpl.saveTask(userid, task),HttpStatus.CREATED);
+		return new ResponseEntity<>(taskServiceImpl.saveTask(userid, taskDto),HttpStatus.CREATED);
 	}
 	
 	@GetMapping("/task")
@@ -39,7 +40,10 @@ public class TaskController {
 		Task task = taskServiceImpl.gettaskbyid(userid);
 		return ResponseEntity.ok(task);
 	}
-	
+	@GetMapping("/{userid}/tasks")
+	 public ResponseEntity<List<Task>> getUserAssignedTasks(@PathVariable(name = "userid") long userid) {
+        return new ResponseEntity<>(taskServiceImpl.getAlltasksid(userid),HttpStatus.OK);
+    }
 	
 	
 	

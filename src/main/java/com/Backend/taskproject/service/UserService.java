@@ -1,10 +1,10 @@
 package com.Backend.taskproject.service;
 
-import com.Backend.taskproject.entity.Users;
+import com.Backend.taskproject.playload.UserDto;
 
 public interface UserService {
 	
-	public Users createUser(Users users);
+	public UserDto createUser(UserDto usersDto);
 	
 
 

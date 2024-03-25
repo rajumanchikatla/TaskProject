@@ -29,7 +29,7 @@ public class TaskServiceImpl implements TaskService{
 		Users user = userRepository.findById(userid).orElseThrow(
 				()-> new UserNotFound(String.format("User id %d not found", userid)) 
 				);
-//		task.setUsers(user);
+		task.setUsers(user);
 		Task savedtask = taskRepository.save(task);
 		return savedtask;
 	}
@@ -49,7 +49,7 @@ public class TaskServiceImpl implements TaskService{
 	public List<Task> getalltasks(Long userid){
        return taskRepository.findAll();
 	}
-//nkjsajkdsak
+
 	
 
 }

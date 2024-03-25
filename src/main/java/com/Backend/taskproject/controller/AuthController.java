@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.Backend.taskproject.entity.Users;
+import com.Backend.taskproject.playload.UserDto;
 import com.Backend.taskproject.serviceImpl.UserServiceImpl;
 
 @RequestMapping("/api/auth")
@@ -19,8 +20,8 @@ public class AuthController {
 	private UserServiceImpl userServiceImpl;
 	
 	@PostMapping("/register")
-	public ResponseEntity<Users>createUser(@RequestBody Users users){
-		return new ResponseEntity<>(userServiceImpl.createUser(users),HttpStatus.CREATED);
+	public ResponseEntity<UserDto>createUser(@RequestBody UserDto userDto){
+		return new ResponseEntity<>(userServiceImpl.createUser(userDto),HttpStatus.CREATED);
 	}
 
 }

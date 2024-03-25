@@ -5,14 +5,12 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.Backend.taskproject.entity.Task;
-import com.Backend.taskproject.entity.Users;
+import com.Backend.taskproject.playload.TaskDto;
 
 public interface TaskRepository extends JpaRepository<Task, Long> {
 
-	List<Task> findAllById(long userid);
+	public List<TaskDto> getallTasks(long userid);
 
-
-
-	List<Task> findByUsers(Users user);
+	public List<TaskDto> findAllById(Long userid);
 
 }

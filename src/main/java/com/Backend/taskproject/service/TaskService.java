@@ -2,13 +2,15 @@ package com.Backend.taskproject.service;
 
 import java.util.List;
 
-import com.Backend.taskproject.entity.Task;
+import com.Backend.taskproject.playload.TaskDto;
 
 public interface TaskService {
 	
-	public Task saveTask(long userid,Task task);
+	public TaskDto saveTask(long userid,TaskDto taskDto);
 	
-	public Task gettaskbyid(long userid);
+	public List<TaskDto> getAllTasks(long userid);
+
 	
-	public List<Task> getalltasks(Long userid);
+	
+
 }
