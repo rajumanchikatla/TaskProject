@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.Backend.taskproject.entity.Task;
-import com.Backend.taskproject.playload.TaskDto;
 import com.Backend.taskproject.serviceImpl.TaskServiceImpl;
 
 @RequestMapping("/api")
@@ -24,15 +23,16 @@ public class TaskController {
 	private TaskServiceImpl taskServiceImpl;
 	
 	@PostMapping("/{userid}/tasks")
-	public ResponseEntity<TaskDto> savetask(@PathVariable(name = "userid") long userid,
-										@RequestBody TaskDto taskDto)
+	public ResponseEntity<Task> savetask(@PathVariable(name = "userid") long userid,
+										@RequestBody Task task)
 	{
-		return new ResponseEntity<>(taskServiceImpl.saveTask(userid, taskDto),HttpStatus.CREATED);
+		return new ResponseEntity<>(taskServiceImpl.saveTask(userid, task),HttpStatus.CREATED);
 	}
 	
 	@GetMapping("/task")
-	public List<Task>getAlltasks(Long userid){
-	return taskServiceImpl.getalltasks(userid);
+	public List<Task>getAlltasks(){
+		List<Task> alltasks = taskServiceImpl.getalltasks();
+		return alltasks;
 	}
 	
 	@GetMapping("/task/{userid}")
@@ -40,9 +40,17 @@ public class TaskController {
 		Task task = taskServiceImpl.gettaskbyid(userid);
 		return ResponseEntity.ok(task);
 	}
+	
 	@GetMapping("/{userid}/tasks")
-	 public ResponseEntity<List<Task>> getUserAssignedTasks(@PathVariable(name = "userid") long userid) {
-        return new ResponseEntity<>(taskServiceImpl.getAlltasksid(userid),HttpStatus.OK);
+	 public ResponseEntity<?> getUserAssignedTasks(@PathVariable(name = "userid") long userid) {
+        List<Task> task = taskServiceImpl.getAllTasks(userid);
+        if(task.size()>0){
+        	return new ResponseEntity<>(taskServiceImpl.getAllTasks(userid),HttpStatus.OK);
+        }else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("User with ID has no assigned tasks.");
+                   }
+       
     }
 	
 	

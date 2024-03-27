@@ -24,32 +24,33 @@ public class TaskServiceImpl implements TaskService{
 	private UserRepository userRepository;
 	
 	@Override
-	public Task saveTask(long userid, Task task) {
-		// TODO Auto-generated method stub
-		Users user = userRepository.findById(userid).orElseThrow(
-				()-> new UserNotFound(String.format("User id %d not found", userid)) 
-				);
-		task.setUsers(user);
-		Task savedtask = taskRepository.save(task);
-		return savedtask;
-	}
+	 public Task saveTask(long userid, Task task) {
+        Users user = userRepository.findById(userid)
+                .orElseThrow(() -> new UserNotFound("User not found"));
+        task.setUsers(user);
+        return taskRepository.save(task);
+    }
 
-	@Override
-	public Task gettaskbyid(long userid) {
+    @Override
+    public Task gettaskbyid(long userid) {
+        Optional<Task> taskOptional = taskRepository.findById(userid);
+        return taskOptional.orElseThrow(() -> new UserNotFound("Task not found"));
+    }
 
-		Optional<Task> taskoptional = taskRepository.findById(userid);
-		if(taskoptional.isPresent()){
-			return taskoptional.get();
-		}else{
-			throw new UserNotFound(String.format("User id %d not found", userid));
-		}
-		
-	}
-
-	public List<Task> getalltasks(Long userid){
+    public List<Task> getalltasks(){
        return taskRepository.findAll();
-	}
-
+    }
 	
 
+    public List<Task> getAllTasks(long userid){
+    	return taskRepository.findByUsers_Id(userid);
+    }
+    
+//	public List<Task> getalltasks(Long userid){
+//       return taskRepository.findAll();
+//	}
+
+    
 }
+
+
