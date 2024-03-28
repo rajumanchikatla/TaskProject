@@ -8,9 +8,9 @@ public interface TaskService {
 
 	Task saveTask(long userid, Task task);
 
-	Task gettaskbyid(long id);
+	Task getTaskByid(long id);
 	
-	public List<Task> getalltasks();
+	public List<Task> getAllTasks();
 	
 	
 
