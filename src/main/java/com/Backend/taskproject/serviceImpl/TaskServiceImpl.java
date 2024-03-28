@@ -38,6 +38,7 @@ public class TaskServiceImpl implements TaskService{
     @Override
     public Task getTaskByid(long userid) {
         Optional<Task> taskOptional = taskRepository.findById(userid);
+		LOGGER.info("Task Service get task by id");
         return taskOptional.orElseThrow(() -> new UserNotFound("Task not found"));
     }
 
