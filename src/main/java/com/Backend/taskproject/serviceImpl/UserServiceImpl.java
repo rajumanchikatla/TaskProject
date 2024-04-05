@@ -1,6 +1,7 @@
 package com.Backend.taskproject.serviceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.Backend.taskproject.entity.Users;
@@ -12,9 +13,13 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	public Users createUser(Users users) {
 //		Users user = userRepository.getById(id)//converting userdto to users class to store the data
+		users.setPassword(passwordEncoder.encode(users.getPassword()));
 		Users savedUser = userRepository.save(users);
 		return savedUser;
 	}

@@ -8,9 +8,7 @@ import lombok.Setter;
 public class UserDto {
 
 	
-	
-	private long id;
-	
+	private long id;	
 	
 	private String name;
 	
