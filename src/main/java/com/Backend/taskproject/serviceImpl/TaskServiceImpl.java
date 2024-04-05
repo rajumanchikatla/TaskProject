@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import com.Backend.taskproject.entity.Task;
 import com.Backend.taskproject.entity.Users;
+import com.Backend.taskproject.exception.APIException;
+import com.Backend.taskproject.exception.TaskNotFound;
 import com.Backend.taskproject.exception.UserNotFound;
 import com.Backend.taskproject.repository.TaskRepository;
 import com.Backend.taskproject.repository.UserRepository;
@@ -51,10 +53,42 @@ public class TaskServiceImpl implements TaskService{
 		LOGGER.info("Task Service get all tasks based on userid");
     	return taskRepository.findByUsers_Id(userid);
     }
+
+	@Override
+	public Task getTask(long userid, long taskid) {
+		LOGGER.info("Task Service get all tasks based on userid and taskid");
+
+		Users user = userRepository.findById(userid).orElseThrow(
+				()->new UserNotFound(String.format("user id %d not found", userid)));
+		Task task = taskRepository.findById(taskid).orElseThrow(
+				()->new TaskNotFound(String.format("Task id %d not found", taskid)));	
+		if(user.getId()!=task.getUsers().getId()){
+			throw new APIException(String.format("Task id %d not belongs to user id %d", userid,taskid));
+		}
+			
+		return task;
+	}
+
+	@Override
+	public void deleteTask(long userid, long taskid) {
+		// TODO Auto-generated method stub
+		
+		LOGGER.info("delete tasks based on userid and taskid");
+
+		Users user = userRepository.findById(userid).orElseThrow(
+				()->new UserNotFound(String.format("user id %d not found", userid)));
+		Task task = taskRepository.findById(taskid).orElseThrow(
+				()->new TaskNotFound(String.format("Task id %d not found", taskid)));	
+		if(user.getId()!=task.getUsers().getId()){
+			throw new APIException(String.format("Task id %d not belongs to user id %d", userid,taskid));
+		}
+		taskRepository.deleteById(taskid);  //task delete
+		
+	}
     
-//	public List<Task> getalltasks(Long userid){
-//       return taskRepository.findAll();
-//	}
+
+    
+    
 
     
 }
